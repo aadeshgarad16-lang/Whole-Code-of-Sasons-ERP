@@ -3880,21 +3880,22 @@ def get_inventory_check_pos():
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         
-        cursor.execute("SELECT DISTINCT po_number, customer_name FROM bom_done WHERE po_number IS NOT NULL AND po_number != ''")
-        results = cursor.fetchall() or []
-        
-        if not results:
-            try:
-                cursor.execute("""
-                    SELECT DISTINCT po.po_number, COALESCE(c.customer_name, po.contact_person, 'Customer') AS customer_name
-                    FROM purchase_orders po
-                    LEFT JOIN customers c ON po.customer_id = c.customer_id
-                    WHERE LOWER(TRIM(po.stage)) = 'inventory check'
-                       OR LOWER(TRIM(po.current_stage)) = 'inventory_check'
-                """)
-                results = cursor.fetchall() or []
-            except Exception as e_po:
-                print("[WARN] Fallback PO query failed:", e_po)
+        try:
+            cursor.execute("""
+                SELECT DISTINCT po_number, customer_name 
+                FROM bom_done 
+                WHERE po_number IS NOT NULL AND po_number != ''
+                UNION
+                SELECT DISTINCT po.po_number, COALESCE(c.customer_name, po.contact_person, 'Customer') AS customer_name
+                FROM purchase_orders po
+                LEFT JOIN customers c ON po.customer_id = c.customer_id
+                WHERE LOWER(TRIM(po.stage)) = 'inventory check'
+                   OR LOWER(TRIM(po.stage)) = 'bom calculation'
+            """)
+            results = cursor.fetchall() or []
+        except Exception as e_po:
+            print("[WARN] Unified PO query failed:", e_po)
+            results = []
         
         return jsonify({
             "success": True,
