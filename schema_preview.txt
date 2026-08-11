@@ -1,0 +1,94 @@
+﻿-- bom_master --
+bom_master_id (int)
+garment_id (int)
+material_id (int)
+consumption_per_piece (decimal(10,2))
+wastage_pct (decimal(5,2))
+material_name (varchar(100))
+unit (varchar(20))
+-- bom_master data --
+\n
+-- consumption_formulas --
+formula_id (int)
+garment_category (varchar(50))
+material_id (int)
+per_piece_qty (decimal(10,2))
+-- consumption_formulas data --
+(1, 'shirt', 1, Decimal('1.80'))
+(2, 'shirt', 2, Decimal('0.02'))
+(3, 'shirt', 3, Decimal('6.00'))
+\n
+-- consumption_matrix --
+id (int)
+garment_type (varchar(50))
+size (varchar(20))
+material_id (int)
+unit_consumption (decimal(10,3))
+created_at (timestamp)
+updated_at (timestamp)
+-- consumption_matrix data --
+\n
+-- bill_of_materials --
+bom_id (int)
+po_number (varchar(50))
+material_id (int)
+per_piece_qty (decimal(10,2))
+final_qty (decimal(10,2))
+amount (decimal(12,2))
+material_status (varchar(50))
+allocation_status (varchar(50))
+allocated_person (varchar(100))
+-- bill_of_materials data --
+(6, 'PO-ASM-001', 6, Decimal('1.00'), Decimal('21.00'), Decimal('10.50'), 'Out of Stock', 'Critical Shortage', None)
+(7, 'PO-ASM-001', 7, Decimal('1.20'), Decimal('26.00'), Decimal('130.00'), 'Out of Stock', 'Critical Shortage', None)
+(8, 'PO-ASM-001', 8, Decimal('0.10'), Decimal('3.00'), Decimal('1.50'), 'Out of Stock', 'Critical Shortage', None)
+\n
+-- garment_bom_calculations --
+id (int)
+item_name (varchar(100))
+size (varchar(50))
+fabric_width (varchar(50))
+fabric_full_sleeve (varchar(50))
+fabric_half_sleeve (varchar(50))
+cuff (varchar(50))
+thread (varchar(50))
+collar (varchar(50))
+placket (varchar(50))
+size_label (varchar(50))
+washcare_label (varchar(50))
+overlock_thread (varchar(50))
+main_label (varchar(50))
+brand_label (varchar(50))
+polybag (varchar(50))
+box (varchar(50))
+clip (varchar(50))
+created_at (timestamp)
+-- garment_bom_calculations data --
+(1, 'Shirt', '34', '58m', '1.35cm', '1.2 cm', '9 inch', '200 m', '14.5 inch', '1 inch', '1', '1', '300 m', '1', '1', '1', '1', '1', datetime.datetime(2026, 7, 23, 10, 58, 26))
+(2, 'Shirt', '36', None, '1.37cm', '1.2 cm', '9 inch', '200 m', '14.5 inch', '1 inch', '1', '1', '300 m', '1', '1', '1', '1', '1', datetime.datetime(2026, 7, 23, 10, 58, 26))
+(3, 'Shirt', '38', None, '1.40cm', '1.2 cm', '9 inch', '200 m', '14.5 inch', '1 inch', '1', '1', '300 m', '1', '1', '1', '1', '1', datetime.datetime(2026, 7, 23, 10, 58, 26))
+\n
+-- store_garments --
+garment_id (int)
+sku_no (varchar(50))
+hsn_code (varchar(20))
+pattern (varchar(100))
+description (text)
+category (varchar(50))
+gender (enum('Male','Female','Unisex'))
+size (varchar(10))
+color (varchar(50))
+available_qty (int)
+blocked_qty (int)
+min_required (int)
+unit_price (decimal(10,2))
+total_price (decimal(12,2))
+image_url (text)
+status (varchar(100))
+last_updated (timestamp)
+is_deleted (tinyint(1))
+sleeve_type (varchar(100))
+-- store_garments data --
+(1, 'SKU-001-Red', '62053000', 'Office Shirt', 'Corporate Office Red Shirt', 'T-Shirt', 'Male', 'M', 'Red', 0, 0, 50, Decimal('650.00'), Decimal('0.00'), '', None, datetime.datetime(2026, 7, 30, 13, 16, 32), 0, None)
+(2, 'SKU-001-BLUE', '62101021', 'Plain T-Shirt', 'Company T-Shirt with Company logo', 'T-Shirt', 'Male', 'M', 'Sky Blue', 300, 0, 50, Decimal('550.00'), Decimal('165000.00'), '', None, datetime.datetime(2026, 7, 30, 12, 56, 8), 0, None)
+(3, 'SKU-0023-PRT', '62052000', 'Formal Shirt', 'Formal Shirt with Company logo', 'Shirt', 'Male', 'L', 'White', 250, 0, 100, Decimal('500.00'), Decimal('125000.00'), 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAMDAwMDAwQEBAQFBQUFBQcHBgYHBwsICQgJCAsRCwwLCwwLEQ8SDw4PEg8bFRMTFRsfGhkaHyYiIiYwLTA+PlQBAwMDAwMDBAQEBAUFBQUFBwcGBgcHCwgJCAkICxELDAsLDAsRDxIPDg8SDxsVExMVGx8aGRofJiIiJjAtMD4+VP/CABEIAYQBIQMBIgACEQEDEQH/xAAdAAAABwEBAQAAAAAAAAAAAAAAAQMEBQYHCAIJ/9oACAEBAAAAAPqYADIAACr84z+V6Hcq1gcDRfrb7IAAAyAAMAGQMjBeeFsVldYaP8hrc13PsxGCMgZAAEADIGRgkfkXaEJ291DJo3XKv9ZwYIyBkAAYIGCMjBY982Vrlab1gOd9E5VX/pvsXoEZGCBgAEDBGRtOf+fY7kvrOfyio7Y/58fdAM963+RMjBAwCABkBHYnhEN7PGMO8ad0zL07CZ2sb2rIaxuF/BkAAYABRWLYpGqeHFbwF9mVj3HT6jTsS586a6SnVG1u2jXXIAABAsHxbwr5bHnnCEJt+pSSm0MedeaV9N6N1J178M5jsWYMAgCw/EYafcp+KnywlY/dM6B0mzcy87WvQ5m/22VJRhG6/wBTAAwVc5DXNjLKoM4Bm/bweSaTesmtLx7IOXnvyK9A+fovIgECwrAJ13FzPj0mn5WNpCwtQui6/tVf0HVQ8wcf2ns4ABcjVVCXiptVckvXlOPjpKHZuvPpZ369N8+cIUvqzrAABnwu9Hmu3R2u48JET6TfZvL15H0o6CUXRIhWK6B7aAAoPHTvzGVS/WWQVJJSXfJtJXIvb9NY/LODpWaPn+/d3AAYTzfMV2KynZrjIPPXtAWX3AV1WCgrg58oR1dz/ALfb+seywDHJ2PTMvXqIw1R5JO3FducojS6qrTUtHfR7KHrmJ5Tt9j7V6XABcVVGyyq9dzKfVmpVeRs8dVm1cGVz2ivWUdAUzlXQdTsHVvUYBJ8HLSUoUFlM77mpuzooIxUFBUWG1GzKeIeo49g2p6tddm7aAOlciS7042uZdapWZtnlnBuV6pUqDYb/KBOnVvn+g6Prtqu30bMFinPXonKtKyC82+5PUISKo9G592K3W+xOEiz2v4XSL/t5OPqnNAcm4m/8PKZnGHdK9EwHqNjqbE1OB0SVtMkok1p2fZtmV60+xPfoDtg8fN+BlaTXqOlt3T9TSz8oKgzkSpoMjJeF2SMBmVMw20ale5zrbqo6twBZqajYdNkmtfcUjILlE1GTWn7c9Ctbi/AplNwaw6Rpb7oztcZJxVYLXaE/DJlTacq3b11tLWZ9L+/KsRAJqjO+cpCdv2vbb28ea8OWS1ty8Mo6ms4tVam2qwTD9/FyLNjER485tzd7kdl23z9O/VS4Gk1vKTdsziotRWLFtnXTSUkI5s1r0TJR+W8+yew6JHdH93gvnfWvaaB+PDVu8gTmJ4M5x2IZwIemuPdT5OtWmdBzW5dfAuF8rJFNL0RQ8a4jr25doSYdx1eD9HFrH2b86bTdNIG19gg+ZOXAj48eG9Yi5WA0eXk3bVFB1NRNRZzbHB+wuIrZs14T0ftkwy+dNUVlN83/h/HEoK+2lSUdRbyLbvLDGU+FlqvvnIc9pWhV/UO4jIUbia8dbWMch8fxFqtqwert71VmTBac9RFcadm/Lm2bJba3svaQAIGAOWeGp+yOVA9lfVvivTuHq5SzCo9c/MK2dAG06b6fAABkByPyq9dPXbqYlMv3YzoFFYquXsd3N8qUdktLXtDdQYIGCHH3L6stLzE3Ne412M8TfKtfMXWPpn8s2G0wkp1ztxgAGQLg/BnUw9cOHE5K+kEoaMTPxEVb6j/AChvVp8Z59XnQIAGQqnzKipOSsVlnniVMi/MypHxrBnBzf0/+Mmp6LX8g+ke3AAAyGV/MfgnXtV3TQ3VeiY9/DKTlsnmMLAV76D8kKyNYo/0qtgAAMhnHw7wqSfa/wBQ4zps41tFZk045xCRWe5beO5XXmj9J9RgGCHoiyvj3EudqB3fimFz3RLrM4mtuOx+V4DKot7qfVutI0n6NWwwAQMeeemUg0x918/bxqlxwCoZdSLX9DeHk6DVrj9KrVQyk/owYABAx45jnXfgoqNhcWYYrluKib+i/NOg23Tb/H500zbqrsIwCABlRML8PJJrJySTHPc9g0ZqhdAWO4Nqbn+Ra3QKR9CtrABggY5/pD6Qr7k/asq+p0qisq8WXr2c4zqnnF+zeljMAgAfnljzKQ8xPhmFq8diU9INGJ1DNtSnsmzL6bPAAAADS4+8WKbmPHj34iU3M2SCTJOMYG7b5jYO2QAAYAEFy9OuLGQHlrCyraYIogKItU0KpmvbeiEAAQAOD56TY+n8o6Nom5hZL3FvHPgxHVqu2rrwyAAAAOm8+zMijCVl6+kpRCoS/t4ux9+vEMxp/Qu7GQABgA6Xz0+uaLOOqiZS7yA9WGNaTMwUa3qFX630oyAA/8QAGwEAAQUBAQAAAAAAAAAAAAAAAAECAwQFBgf/2gAKAgIQAxAAAAAAAADL3svrK721J4+r4IQAAAAAAADWZxfqdJZsgl7zz/IUAAAAAALLOnp9FU8p73nt6rLOvr3mNmjz1vEssUAAAsN6mjv1no1YJ/MPQOS3ux5n0LidWnDJAvPWuYuoACp6Lk342OEla0bP5T3fqvAjVGqiPOH0MS0Aatf0DMUjVoqqsM/O9HvYNqkijVSROes8VpgHW0OppypEsSo7L1vKPUs7UvUPYPINHPEVFTIn4HWAPQcrYglSMiexeD7nzvvZLz6nuHiNuk4jVhmycFrAHp+NO1C9HGVpOP6vy70969rxvpfmyIpRlsw5VjgdULUfpuQDi7HAV3qnC9q+LuuPRRGmbYvw0necbCL0FXv8uQc6m5zBWjUsJCqgMMyxeiGed7FGXtM7parRo9HDFc0R7ohyAi0pZUmj4PTxbPY5/U0GvBVcjUURYXSI5qqi5U87LsfBaWJZ3qvd5aOBR7Va17VUQUVGt5XS6KnKzzzVzJ7MfpOOq4tnVq6cEckbwejFUUjXDsb1Zi+faeVYDShiWjL32Rv1mvQRWOlQaK1eWudVTjPOtXPmAADvsnbgRQciORqgrF43Q7WgxPMdiu8AAOto9VnvVRoqoCNWu/jtDvc2svmOxG4ABFkLkO5D0tCwxjpmwPzZ8a1UO6y8qfz3VRQAK1jD179SRu3l17FiGRMTR0qLHN3/AETk+eZztwAAMfTydEVFlbpU54Grn3WPZ1aak2X1nmFdwAAcvv1rDXKjmo5UAalk00du5GryYAANOT6Jkj0BBqyIgg16g7q8CWoAAEbuW6CGZjnNe1rlFa4Bi36nR4YAABDJzG+10MtSa1EjVVyORw01c/dxwAP/xAAlEAACAgIBBAMBAQEBAAAAAAACAwEEAAUGBxESExAgMBRAFRb/2gAIAQEAAQIB/Tc1xarau5tqX+d25fuWC1Uf7N8arWvpAqtuNg8HXdhqkcI5Z/qM+TcjMCrq4+dE7F63pU2XdJ9rH+rmmw5vqONbLa3NHF6b98adeluX8LVo+T9/8z37jnT7bU1h11w9q/cVtPVqXZ2+cKTsK2v3eq59Vt/4rNrY8zt2ZX4AHMtGNsdpxq0C1LvHt8192h1PUYgmKHMtfyX9rd3Ycxs2e0B2IL+xdzNPHr2upDrd3LTWeq5lv4Pj2wVYDPCV6/e0OZLb+W65Ww/X65XIxm45LvLaKus5eDK2tjVa5W42XIeVlAUtGrVWQmIyVkrXbOhd/DlO3HGLHIyRzYhvVVtFGjPWhXobJFRKt5ZZr6mgVpaupVTSMR3iJYR8L2v32ux9niQ0c7ZIkuxq41I0ma52qnUazbbO7SoxQisKhCFjGDD2UsUa7VWx9uavmQnsH07dvGImJhySqPWlcyI9oiPiPjZtKVZZLglz7cjtDFeYZ7MGfHx8c740wWFMtOKCXGRkZEdsM7pbFlElM6aP+r2wwxPPM3rOMjO8/IrDVzIVr9qnr7Fnt4wORkk03zt3gzOmzvryd4QtzJsk+1r2iQz375EVm+ZAZJDe7rj+ntW8j4nClsmW1tnbezptH155YQxyic0tzmreJCfl3jGMWKyZhFY2Oqo8j5FQIS8pKZOXlYdeuUMXHTSv9edNVCpGGa6xQ48qCFgnBd3l6lS83FOTe/g1bV53KTlrLDt5sqKaldK+nA/XkbRWmfXlsEQTAaBjM4tMG2faeLzy2ey1gAXmRnLWXG3G64VZRX01d9DOCha1xJFYKZnFQEDAxJBYaxmNxz7dlCqojPecc1rOUXUZQJUozpjY+nIrCcgoDyYdhpnMrhYgBHLGTWtWSa0mxFVacifKSsu9nMprRQmtl1nELv05u+I/t8oP+TYFD1tQqovCJksJ7t7foDVqoXXBcfBTckC5aFfKc0II4LXW/nnWyXV9kbI7ttexSW74zTQqT95WGW2WjzYShaUJQoIyMmCy0DS5Fisq2EnArjgNr5
